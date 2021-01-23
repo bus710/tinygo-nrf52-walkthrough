@@ -31,7 +31,8 @@ This repo briefly introduces how to build Go based BLE app and flash to nRF52 de
 ```sh
 $ sudo apt install \
     libncurses5 \
-    openocd
+    openocd \
+    minicom
 ```
 
 ## Install TinyGo
@@ -143,3 +144,12 @@ Attach below snippet:
 ```
 
 Next time when CTRL+SHIFT+B is pressed, tinygo will build and flash the project to the target board.
+
+<br/>
+
+## Debug log
+
+The example code has some lines with the **println** function and the messages go to the USB-serial connection with the host. To monitor the messages:
+```sh
+$ sudo minicom -b 115200 -o -D /dev/ttyACM0  
+```
