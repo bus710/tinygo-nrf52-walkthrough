@@ -151,5 +151,6 @@ Next time when CTRL+SHIFT+B is pressed, tinygo will build and flash the project 
 
 The example code has some lines with the **println** function and the messages go to the USB-serial connection with the host. To monitor the messages:
 ```sh
-$ sudo minicom -b 115200 -o -D /dev/ttyACM0  
+$ sudo minicom -b 115200 \
+    -o -D /dev/ttyACM0 # the port name can be different! 
 ```
