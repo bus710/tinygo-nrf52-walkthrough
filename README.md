@@ -100,6 +100,69 @@ NordicSemi's Connect mobile app provides extremely useful features to check BLE 
 
 <br/>
 
+## Test from RPI
+
+- https://elinux.org/RPi_Bluetooth_LE
+- https://elinux.org/images/3/32/Doing_Bluetooth_Low_Energy_on_Linux.pdf
+- https://www.argenox.com/library/bluetooth-low-energy/using-raspberry-pi-ble/
+- https://developpaper.com/the-basic-method-of-using-bluetooth-function-in-linux-system/
+- https://www.makeuseof.com/manage-bluetooth-linux-with-bluetoothctl/
+- https://punchthrough.com/creating-a-ble-peripheral-with-bluez/
+- https://punchthrough.com/android-ble-guide/
+
+Some packages should be installed:
+```sh
+$ sudo apt install -y \
+    bluez \
+    bluetooth \
+    bluez-tools
+$ sudo apt install -y \
+    libusb-dev \
+    libreadline-dev \
+    libglib2.0-dev \
+    libudev-dev \
+    libdbus-1-dev \
+    libical-dev
+$ btmon -v
+$ sudo systemctl enable bluetooth.service
+$ sudo systemctl start bluetooth.service
+$ sudo usermod -aG bluetooth $USER
+```
+
+Some commands might be helpful to scan, connect, pair, and bond:
+```sh
+# hciconfig, hcitool, and gatttool are low level commands
+
+$ hciconfig
+$ sudo hciconfig hci0 up
+$ sudo hcitool lescan -i hci0
+$ gatttool -I -b MAC-address
+[BT MAC][LE]> char-read-uuid 00002a00-0000-1000-8000-00805f9b34fb
+
+# rfcomm and rfkill are more of wireless system control in general
+# useful to see if BT is disabled
+
+$ rfkill list
+$ rfkill unblock
+
+# btmgmt and bluetoothctl are high level commands
+
+$ btmgmt
+[mgmt] \# info
+[mgmt] \# select hci0
+[hci0] \# power up
+[hci0] \# info
+
+$ bluetoothctl 
+[bluetooth] \# show
+[bluetooth] \# scan on
+[bluetooth] \# discoverable on
+[bluetooth] \# pair MAC
+[bluetooth] \# connect MAC
+```
+
+<br/>
+
 ## Setup VSCODE for further work
 
 Go to the example and open with VSCODE:
@@ -154,3 +217,5 @@ The example code has some lines with the **println** function and the messages g
 $ sudo minicom -b 115200 \
     -o -D /dev/ttyACM0 # the port name can be different! 
 ```
+
+<br/>
