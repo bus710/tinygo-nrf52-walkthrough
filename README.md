@@ -146,14 +146,16 @@ $ sudo hcitool lescan -i hci0 # so we can scan devices and MAC address
 # https://stackoverflow.com/a/44213932/5021812
 $ gatttool -I -t random -b MAC-address
 [BT MAC][LE]> connect
-[BT MAC][LE]> primary # returns SERVICE attr handle UUIDs 
+[BT MAC][LE]> primary 
+# returns SERVICE attr handle UUIDs 
+# 0000180d-0000-1000-8000-00805f9b34fb (= ServiceUUIDHeartRate in TinyGo examples)
 ...
 attr handle: 0x000e, end grp handle: 0xffff uuid: 0000180d-0000-1000-8000-00805f9b34fb
-# 0000180d-0000-1000-8000-00805f9b34fb (= ServiceUUIDHeartRate in TinyGo examples)
-[BT MAC][LE]> characteristics # returns CHARACTERISTICS 
+[BT MAC][LE]> characteristics 
+# returns CHARACTERISTICS 
+# 00002a37-0000-1000-8000-00805f9b34fb (= CharacteristicUUIDHeartRateMeasurement in TinyGo examples)
 ...
 handle: 0x000f, char properties: 0x10, char value handle: 0x0010, uuid: 00002a37-0000-1000-8000-00805f9b34fb
-# handle: 0x000f, char properties: 0x10, char value handle: 0x0010, uuid: 00002a37-0000-1000-8000-00805f9b34fb (= CharacteristicUUIDHeartRateMeasurement in TinyGo examples)
 [BT MAC][LE]> char-read-uuid 00002a37-0000-1000-8000-00805f9b34fb
 handle: 0x0010 	 value: 00 44 
 
