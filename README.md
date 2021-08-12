@@ -131,19 +131,31 @@ $ sudo usermod -aG bluetooth $USER
 
 Some commands might be helpful to scan, connect, pair, and bond:
 ```sh
-# hciconfig, hcitool, and gatttool are low level commands
-
-$ hciconfig
-$ sudo hciconfig hci0 up
-$ sudo hcitool lescan -i hci0
-$ gatttool -I -b MAC-address
-[BT MAC][LE]> char-read-uuid 00002a00-0000-1000-8000-00805f9b34fb
-
 # rfcomm and rfkill are more of wireless system control in general
 # useful to see if BT is disabled
 
 $ rfkill list
 $ rfkill unblock
+
+# hciconfig, hcitool, and gatttool are low level commands
+
+$ hciconfig
+$ sudo hciconfig hci0 up
+$ sudo hcitool lescan -i hci0 # so we can scan devices and MAC address
+
+# https://stackoverflow.com/a/44213932/5021812
+$ gatttool -I -t random -b MAC-address
+[BT MAC][LE]> connect
+[BT MAC][LE]> primary # returns SERVICE attr handle UUIDs 
+...
+attr handle: 0x000e, end grp handle: 0xffff uuid: 0000180d-0000-1000-8000-00805f9b34fb
+# 0000180d-0000-1000-8000-00805f9b34fb (= ServiceUUIDHeartRate in TinyGo examples)
+[BT MAC][LE]> characteristics # returns CHARACTERISTICS 
+...
+handle: 0x000f, char properties: 0x10, char value handle: 0x0010, uuid: 00002a37-0000-1000-8000-00805f9b34fb
+# handle: 0x000f, char properties: 0x10, char value handle: 0x0010, uuid: 00002a37-0000-1000-8000-00805f9b34fb (= CharacteristicUUIDHeartRateMeasurement in TinyGo examples)
+[BT MAC][LE]> char-read-uuid 00002a37-0000-1000-8000-00805f9b34fb
+handle: 0x0010 	 value: 00 44 
 
 # btmgmt and bluetoothctl are high level commands
 
