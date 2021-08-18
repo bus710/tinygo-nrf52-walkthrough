@@ -1,11 +1,10 @@
-// 2021/08/15: I tried adding BMS protocol but it is in progress.
-
 package main
 
 import (
 	"math/rand"
 	"time"
 
+	_ "github.com/bus710/tinygo-nrf52-walkthrough/src/heartrate/app"
 	"tinygo.org/x/bluetooth"
 )
 
@@ -15,12 +14,14 @@ var adapter = bluetooth.DefaultAdapter
 var heartRate uint8 = 75 // 75bpm
 
 func main() {
+
+	// r := C.print()
+	// println(r)
+	_ := app.print()
+
 	println("starting")
 	println("ServiceUUIDHeartRate: ", bluetooth.ServiceUUIDHeartRate.String())
 	println("CharacteristicUUIDHeartRateMeasurement: ", bluetooth.CharacteristicUUIDHeartRateMeasurement.String())
-
-	println("ServiceUUIDBondManagement: ", bluetooth.ServiceUUIDBondManagement.String())
-	println("CharacteristicUUIDHeartRateMeasurement: ", bluetooth.CharacteristicUUIDBondManagementControlPoint.String())
 
 	must("enable BLE stack", adapter.Enable())
 	adv := adapter.DefaultAdvertisement()
@@ -28,32 +29,10 @@ func main() {
 	svc = append(svc, bluetooth.ServiceUUIDHeartRate)
 	svc = append(svc, bluetooth.ServiceUUIDBondManagement)
 	must("config adv", adv.Configure(bluetooth.AdvertisementOptions{
-		LocalName:    "Go HRS 3",
+		LocalName:    "Go HRS 2",
 		ServiceUUIDs: svc,
 	}))
 	must("start adv", adv.Start())
-
-	var bondManagement bluetooth.Characteristic
-	value := make([]byte, 5)
-	must("add service", adapter.AddService(&bluetooth.Service{
-		UUID: bluetooth.ServiceUUIDBondManagement,
-		Characteristics: []bluetooth.CharacteristicConfig{
-			{
-				Handle: &bondManagement,
-				UUID:   bluetooth.CharacteristicUUIDBondManagementControlPoint,
-				Value:  value,
-				Flags:  bluetooth.CharacteristicNotifyPermission,
-			},
-		},
-	}))
-
-	checkFunc := func() {
-		for {
-			time.Sleep(time.Second)
-			println(string(value))
-		}
-	}
-	go checkFunc()
 
 	var heartRateMeasurement bluetooth.Characteristic
 	must("add service", adapter.AddService(&bluetooth.Service{
@@ -69,11 +48,9 @@ func main() {
 	}))
 
 	tickFunc := func() {
-		nextBeat := time.Now()
 		for {
-			nextBeat = nextBeat.Add(time.Minute / time.Duration(heartRate))
 			println("tick", time.Now().Format("04:05.000"))
-			time.Sleep(nextBeat.Sub(time.Now()))
+			time.Sleep(time.Second)
 
 			// random variation in heartrate
 			heartRate = randomInt(65, 85)
@@ -83,7 +60,6 @@ func main() {
 		}
 	}
 	tickFunc()
-
 }
 
 func must(action string, err error) {
