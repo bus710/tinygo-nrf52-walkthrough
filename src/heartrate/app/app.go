@@ -1,8 +1,13 @@
-//#cgo CFLAGS: -I${PWD}/../include
-
+/*
+#cgo CFLAGS: -I/home/bus710/repo/tinygo-nrf52-walkthrough/src/heartrate/include
+#include hello.h
+*/
 package app
 
-/*
-#include "include/hello.h"
-*/
 import "C"
+
+func Hello() {
+	println("hello")
+	r := C.print()
+	println(r)
+}

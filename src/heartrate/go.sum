@@ -1,4 +1,6 @@
 github.com/JuulLabs-OSS/cbgo v0.0.2/go.mod h1:L4YtGP+gnyD84w7+jN66ncspFRfOYB5aj9QSXaFHmBA=
+github.com/bus710/tinygo-nrf52-walkthrough v0.0.0-20210818011137-8f1debc94758 h1:amHhQSsQ99R8M9aaUleFs6S7aPtKPI/NqpGG4UgoKOQ=
+github.com/bus710/tinygo-nrf52-walkthrough v0.0.0-20210818011137-8f1debc94758/go.mod h1:59z7OGtiXQ8i7z0S9wjzoZC+PR/+XR//EIa//neItPw=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/eclipse/paho.mqtt.golang v1.2.0/go.mod h1:H9keYFcgq3Qr5OUJm/JZI/i6U7joQ8SYLhZwfeOo6Ts=

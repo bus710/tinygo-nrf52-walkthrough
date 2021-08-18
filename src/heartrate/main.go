@@ -1,10 +1,10 @@
 package main
 
 import (
+	"main/app"
 	"math/rand"
 	"time"
 
-	_ "github.com/bus710/tinygo-nrf52-walkthrough/src/heartrate/app"
 	"tinygo.org/x/bluetooth"
 )
 
@@ -15,9 +15,7 @@ var heartRate uint8 = 75 // 75bpm
 
 func main() {
 
-	// r := C.print()
-	// println(r)
-	_ := app.print()
+	app.Hello()
 
 	println("starting")
 	println("ServiceUUIDHeartRate: ", bluetooth.ServiceUUIDHeartRate.String())
